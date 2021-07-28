@@ -21,6 +21,8 @@ currently only QQ email supported. But it is easy to extend more.
 \examples{
 \dontrun{
 EmailConfig_qq("991810576@qq.com", "XXXXXXXX")
-sendEmail("kongdd@mail2.sysu.edu.cn", content = "hello python email")
+
+receiver = c("kongdd@mail2.sysu.edu.cn", "991810576@qq.com")
+sendEmail(receiver, content = "hello python email")
 }
 }

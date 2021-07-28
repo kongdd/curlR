@@ -35,7 +35,7 @@ def sendEmail_py(
     msg = MIMEText(mail_content, "plain", 'utf-8')
     msg["Subject"] = Header(mail_title, 'utf-8')
     msg["From"] = Header(user, 'utf-8')
-    msg["To"] = receiver
+    msg["To"] = ",".join(receiver)
     smtp.sendmail(user, receiver, msg.as_string())
     smtp.quit()
 

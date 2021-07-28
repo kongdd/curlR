@@ -14,7 +14,9 @@ fileConfig <- normalizePath("~/.R/curlR.json") # system.file("~/config.json", pa
 #' @examples
 #' \dontrun{
 #' EmailConfig_qq("991810576@qq.com", "XXXXXXXX")
-#' sendEmail("kongdd@mail2.sysu.edu.cn", content = "hello python email")
+#' 
+#' receiver = c("kongdd@mail2.sysu.edu.cn", "991810576@qq.com")
+#' sendEmail(receiver, content = "hello python email")
 #' }
 #' @export
 sendEmail <- function(receiver = "kongdd@mail2.sysu.edu.cn", content = "", title = "curlR") {

@@ -12,15 +12,17 @@ login_CUG <- function(){
 
 report_health <- function(){
     tryCatch({
+        # navigate to the page of health report
         p$navigate("http://rsfw.cug.edu.cn/rsfw/sys/lwReportEpidemic/*default/index.do#/")
         Sys.sleep(5)
-        p$findElement("css selector", ".geuhjrnk") %>% clickElement()
+        
+        p$findElement("css selector", ".geuhjrnk") %>% clickElement() # 填报
         Sys.sleep(3)
 
-        p$findElement("css selector", "div.OPjctwlgzsl button.mt-btn-primary") %>% clickElement()
+        p$findElement("css selector", "div.OPjctwlgzsl button.mt-btn-primary") %>% clickElement() # 提交
         Sys.sleep(3)
 
-        p$findElement("css selector", "button.mint-msgbox-confirm") %>% clickElement() # confirm
+        p$findElement("css selector", "button.mint-msgbox-confirm") %>% clickElement() # 确认
     }, error = function(e) {
         message(sprintf("%s", e$message))
         Sys.sleep(5)
@@ -36,12 +38,12 @@ report_health <- function(){
     login_CUG()
     Sys.sleep(5)
     report_health()
-
     p$closeall()
 }
 
 # kill_selenium(port)
-# system("taskkill /IM chromedriver.exe -f")
+system("taskkill /IM java.exe -f")
+system("taskkill /IM chromedriver.exe -f")
 # system("taskkill /IM chromedriver.exe -f")
 # system("taskkill /IM selenium-server -f")
 

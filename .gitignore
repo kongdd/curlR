@@ -9,5 +9,5 @@ task/
 
 */temp/*
 *.xlsx
-*.exe
+# *.exe
 *.log
