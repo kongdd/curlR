@@ -22,11 +22,28 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(curlR)
-## basic example code
-# git remote set-url origin https://github.com/rpkgs/curlR
+
+port = 4444
+kill_selenium(port)
+p <- init_selenium(port)
+
+p %>% go("https://cn.bing.com/")
+getElementByName(p, "q") %>% ele_fillText("curlR", key = "enter")
+# getElementByName(p, "go") %>% ele_click()
+
+# GET ALL results
+xs = ele_find_all(p, "//ol/li")
+
+# GET the first result
+x = ele_find_first(p, "//ol/li")
+a = ele_child(x, "//a") # get link
+a %>% clickElement()
+# if page changed, previous node will be destroyed
 ```
 
 ## selenium 
+
+### Linux
 ```bash
-sudo apt-get install chromium-chromedriver
+sudo apt install firefox-geckodriver firefox chromium-chromedriver 
 ```

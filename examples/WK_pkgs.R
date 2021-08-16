@@ -10,42 +10,42 @@ min_str2num <- function(x) {
   min*60 + sec
 }
 
-
 wk_login <- function(userName, password) {
   url_login <- "http://hubeigs.zymreal.com/resource/index#/study/list"
   p$navigate(url_login)
 
-  xml_find_first(p, "//*[@id='username']") %>% send_keys(userName)
-  xml_find_first(p, "//*[@id='password']") %>% send_keys(password)
-  xml_find_first(p, "//*[@class='btn_login']") %>% clickElement()
+  getElementById(p, "username") %>% ele_fillText(userName)
+  getElementById(p, "password") %>% ele_fillText(password)
+  getElementByClass(p, "btn_login") %>% ele_click()
 }
 
 video_info <- function(p) {
-  video = xml_find_first(p, "//video")
+  video = ele_find_first(p, "//video")
   duration = p$executeScript("return arguments[0].duration;", list(video))[[1]] %>% as.numeric()
   currentTime = p$executeScript("return arguments[0].currentTime;", list(video))[[1]] %>% as.numeric()
   time_left = duration - currentTime
   list(time_len = duration, time_cur = currentTime, time_left = time_left)
 }
 
-#' wk_course
-#' @param time_wait second, waiting second of video info
-#' @export
+# ' wk_course
+# ' @param time_wait second, waiting second of video info
+# ' @export
 wk_course <- function(str_course, time_wait = 10, skip_finished = TRUE) {
   p$navigate(str_course)
   Sys.sleep(2)
+
   # status = xml_find_all(p, "//div[@class='handle']/i")
   # divs <- xml_find_all(p, "//*[@class='res-item resource active']")
   # str_mins <- get_time(divs)
   # secs <- min_str2num(str_mins)
 
   # divs <- xml_find_all(p, "//*[@class='res-item resource active']")
-  # browser()
-  sections = xml_find_all(p, "//*[@class='title section-name']")
+  sections = ele_find_all(p, "//*[@class='title section-name']")
   temp <- sapply(sections, function(x) x %>% clickElement())
-  items = xml_find_all(p, "//li[@id]") # lessions
 
-  status = xml_find_all(p, "//li/i[2]")
+  items = ele_find_all(p, "//li[@id]") # lessions
+
+  status = ele_find_all(p, "//li/i[2]")
   is_finished = status %>% xml_html(parse = FALSE) %>% grepl("finish", .)
   n <- length(is_finished)
 
@@ -71,17 +71,17 @@ wk_course <- function(str_course, time_wait = 10, skip_finished = TRUE) {
 
 #' @export
 wk_listener <- function(skip_finished = TRUE) {
-  for (i in 1:10) {
+  for (i in 1:3) {
     courseIds <- 222:237
     for (courseId in courseIds) {
-      tryCatch({
+      # tryCatch({
         url <- glue("http://hubeigs.zymreal.com/resource/index#/study/learn/{courseId}")
         # url = glue("http://hubeigs.zymreal.com/resource/index#/study/course/{courseId}")
         p$navigate(url)
         wk_course(url, skip_finished = skip_finished)
-      }, error = function(e) {
-        message(sprintf("%s", e$message))
-      })
+      # }, error = function(e) {
+      #   message(sprintf("%s", e$message))
+      # })
     }
   }
 }
